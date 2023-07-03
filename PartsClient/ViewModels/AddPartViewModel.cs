@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -13,6 +14,7 @@ namespace PartsClient.ViewModels
     public class AddPartViewModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
+        private readonly PartsManager _partsManager;
 
         public ICommand DoneEditingCommand { get; private set; }
 
@@ -76,10 +78,11 @@ namespace PartsClient.ViewModels
             }
         }
 
-        //private PartsManager partsManager = new PartsManager();
-        
-        public AddPartViewModel()
-        {            
+
+        public AddPartViewModel(PartsManager partsManager)
+        {
+
+            _partsManager = partsManager;
             DoneEditingCommand = new Command(async () => await DoneEditing());
             SaveCommand = new Command(async () => await SaveData());
             DeleteCommand = new Command(async () => await DeletePart());
@@ -114,7 +117,7 @@ namespace PartsClient.ViewModels
 
             await PartsManager.Update(partToSave);
 
-            MessagingCenter.Send(this, "refresh");
+            MessagingCenter.Send(this, "Update ist gelungen");
 
             await Shell.Current.GoToAsync("..");
         }
@@ -124,10 +127,18 @@ namespace PartsClient.ViewModels
             if (string.IsNullOrWhiteSpace(PartID))
                 return;
 
+            bool isSure = await Application.Current.MainPage.DisplayAlert(
+                "Sind Sie sicher, dass Sie Löschen möchten",
+                "Möchten Sie wirklich löschen?",
+                "Ja", "Nein"
+            );
+
+            if (!isSure)
+                return;
+
             await PartsManager.Delete(PartID);
 
-            MessagingCenter.Send(this, "refresh");
-
+            MessagingCenter.Send(this, "Es wurde gelöscht");
             await Shell.Current.GoToAsync("..");
         }
 

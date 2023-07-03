@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,6 +15,7 @@ namespace PartsClient.ViewModels
     public class PartsViewModel : INotifyPropertyChanged
     {
         private ObservableCollection<Part> _parts;
+        private readonly PartsManager _partsManager;
 
         private bool _isRefreshing = false;
         public bool IsRefreshing
@@ -60,9 +62,10 @@ namespace PartsClient.ViewModels
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
-
-        public PartsViewModel()
-        {            
+       //private PartsManager partsManager = new PartsManager();
+        public PartsViewModel(PartsManager partsManager)
+        {
+            //_partsManager = partsManager;
             _parts = new ObservableCollection<Part>();
             LoadDataCommand = new Command(async () => await LoadData());
             PartSelectedCommand = new Command(async () => await PartSelected());
@@ -72,6 +75,8 @@ namespace PartsClient.ViewModels
 
             Task.Run(LoadData);
         }
+
+        
 
         private async Task PartSelected()
         {
@@ -115,12 +120,16 @@ namespace PartsClient.ViewModels
                 MainThread.BeginInvokeOnMainThread(() =>
                 {
                     Parts.Clear();
-                    
+
                     foreach (Part part in partsCollection)
-                    {                        
-                        Parts.Add(part);                        
+                    {
+                        Parts.Add(part);
                     }
                 });
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
             }
             finally
             {    

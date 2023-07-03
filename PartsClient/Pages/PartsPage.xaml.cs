@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using PartsClient.Data;
 using PartsClient.ViewModels;
 
@@ -7,7 +8,15 @@ public partial class PartsPage : ContentPage
 {
     public PartsPage()
     {
-        InitializeComponent();
-        BindingContext = new PartsViewModel();
+        try
+        {
+            InitializeComponent();
+            BindingContext = DependencyService.Resolve<PartsViewModel>(); //
+            //BindingContext = new PartsViewModel();
+        }
+        catch (Exception ex) 
+        {
+            Debug.WriteLine(ex.ToString());
+        }
     }
 }

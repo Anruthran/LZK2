@@ -11,8 +11,8 @@ public partial class AddPartPage : ContentPage
 	{
 		InitializeComponent();
 
-		viewModel = new AddPartViewModel();
-		BindingContext = viewModel;
+        viewModel = DependencyService.Resolve<AddPartViewModel>();
+        BindingContext = viewModel;
     }
 
 	Part _partToDisplay;

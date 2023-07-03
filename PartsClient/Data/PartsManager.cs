@@ -10,8 +10,15 @@ using Newtonsoft.Json;
 
 namespace PartsClient.Data
 {
-    public static class PartsManager
+    public class PartsManager
     {
+        private readonly HttpClient _httpClient;
+
+        public PartsManager(HttpClient httpClient)
+        {
+            _httpClient = httpClient;
+        }
+
         // TODO: Add fields for BaseAddress, Url, and authorizationKey
         static readonly string BaseAddress = "https://mslearnpartsserver1524324216.azurewebsites.net";
         static readonly string Url = $"{BaseAddress}/api/";
@@ -37,6 +44,7 @@ namespace PartsClient.Data
 
             return client;
         }
+
 
         public static async Task<IEnumerable<Part>> GetAll()
         {
