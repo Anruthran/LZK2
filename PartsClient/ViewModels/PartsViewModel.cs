@@ -65,7 +65,7 @@ namespace PartsClient.ViewModels
        //private PartsManager partsManager = new PartsManager();
         public PartsViewModel(PartsManager partsManager)
         {
-            //_partsManager = partsManager;
+            _partsManager = partsManager;
             _parts = new ObservableCollection<Part>();
             LoadDataCommand = new Command(async () => await LoadData());
             PartSelectedCommand = new Command(async () => await PartSelected());

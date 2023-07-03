@@ -81,7 +81,6 @@ namespace PartsClient.ViewModels
 
         public AddPartViewModel(PartsManager partsManager)
         {
-
             _partsManager = partsManager;
             DoneEditingCommand = new Command(async () => await DoneEditing());
             SaveCommand = new Command(async () => await SaveData());

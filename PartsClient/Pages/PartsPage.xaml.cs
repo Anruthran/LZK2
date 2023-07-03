@@ -2,16 +2,21 @@ using System.Diagnostics;
 using PartsClient.Data;
 using PartsClient.ViewModels;
 
+
 namespace PartsClient.Pages;
 
 public partial class PartsPage : ContentPage
 {
+    private readonly HttpClient _httpClient;
+    private readonly PartsManager partsManager;
     public PartsPage()
     {
         try
         {
             InitializeComponent();
-            BindingContext = DependencyService.Resolve<PartsViewModel>(); //
+
+            PartsManager partsManager = new PartsManager(_httpClient);
+            BindingContext = ViewModels.PartsViewModel(partsManager); //typeof(PartsViewModel); //DependencyService.Resolve<PartsViewModel>(); //Hier ist ein Fehler!
             //BindingContext = new PartsViewModel();
         }
         catch (Exception ex) 
@@ -19,4 +24,5 @@ public partial class PartsPage : ContentPage
             Debug.WriteLine(ex.ToString());
         }
     }
+
 }
