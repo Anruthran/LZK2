@@ -62,7 +62,7 @@ namespace PartsClient.ViewModels
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
-       //private PartsManager partsManager = new PartsManager();
+       
         public PartsViewModel(PartsManager partsManager)
         {
             _partsManager = partsManager;
@@ -75,8 +75,6 @@ namespace PartsClient.ViewModels
 
             Task.Run(LoadData);
         }
-
-        
 
         private async Task PartSelected()
         {

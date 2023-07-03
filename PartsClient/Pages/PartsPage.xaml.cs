@@ -15,8 +15,8 @@ public partial class PartsPage : ContentPage
         {
             InitializeComponent();
 
-            PartsManager partsManager = new PartsManager(_httpClient);
-            BindingContext = ViewModels.PartsViewModel(partsManager); //typeof(PartsViewModel); //DependencyService.Resolve<PartsViewModel>(); //Hier ist ein Fehler!
+            partsManager = new PartsManager(_httpClient);
+            BindingContext = new PartsViewModel(partsManager); //typeof(PartsViewModel); //DependencyService.Resolve<PartsViewModel>(); //Hier ist ein Fehler!
             //BindingContext = new PartsViewModel();
         }
         catch (Exception ex) 
